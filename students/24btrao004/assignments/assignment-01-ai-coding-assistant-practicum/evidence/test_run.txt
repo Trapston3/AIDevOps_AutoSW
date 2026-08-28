@@ -1,0 +1,26 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.14, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\Admin\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\Admin\A1-assignment\classrepo\students\24btrao004\assignments\assignment-01-ai-coding-assistant-practicum\src
+collecting ... collected 18 items
+
+tests/test_elitism.py::test_elites_appear_unchanged_in_next_generation PASSED [  5%]
+tests/test_elitism.py::test_elites_survive_maximum_mutation PASSED       [ 11%]
+tests/test_elitism.py::test_best_fitness_never_drops_with_elitism PASSED [ 16%]
+tests/test_elitism.py::test_elite_count_zero_matches_original_behaviour PASSED [ 22%]
+tests/test_elitism.py::test_negative_elite_count_raises PASSED           [ 27%]
+tests/test_elitism.py::test_elite_count_at_least_population_size_raises PASSED [ 33%]
+tests/test_fitness.py::test_load_dataset_shapes PASSED                   [ 38%]
+tests/test_fitness.py::test_load_dataset_labels_binary PASSED            [ 44%]
+tests/test_fitness.py::test_evaluate_fitness_returns_percentage PASSED   [ 50%]
+tests/test_fitness.py::test_evaluate_fitness_all_zero_is_zero PASSED     [ 55%]
+tests/test_fitness.py::test_evaluate_fitness_subset_is_deterministic PASSED [ 61%]
+tests/test_ga_engine.py::test_create_population_shape PASSED             [ 66%]
+tests/test_ga_engine.py::test_create_population_is_binary PASSED         [ 72%]
+tests/test_ga_engine.py::test_create_population_not_all_identical PASSED [ 77%]
+tests/test_ga_engine.py::test_evolve_returns_valid_structure PASSED      [ 83%]
+tests/test_ga_engine.py::test_evolve_best_is_at_least_as_good_as_start PASSED [ 88%]
+tests/test_ga_engine.py::test_evolve_improves_on_counting_fitness PASSED [ 94%]
+tests/test_ga_engine.py::test_zero_generations_raises PASSED             [100%]
+
+============================= 18 passed in 0.82s ==============================
