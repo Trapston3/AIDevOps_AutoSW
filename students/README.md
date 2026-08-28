@@ -8,5 +8,6 @@ else's row.
 | USN | Name | GitHub |
 | --- | ---- | ------ |
 | ju00ai000 | Example Student | @example |
-| 24btrao051 | Ojas Shelke | @Trapston3 |
+| 24btrao004 | Ashwin Lahkar | @Ashwin-L1 |
 | 24btrao037 | Sashankar J | @SashankarJ |
+| 24btrao051 | Ojas Shelke | @Trapston3 |
