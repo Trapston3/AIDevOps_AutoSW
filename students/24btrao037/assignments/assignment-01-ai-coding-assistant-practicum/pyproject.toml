@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "expense-splitter"
+version = "0.1.0"
+description = "A small expense-splitting library and CLI (Assignment 1 practicum)."
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [{ name = "Sashankar J" }]
+
+[project.scripts]
+expense-splitter = "expense_splitter.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
