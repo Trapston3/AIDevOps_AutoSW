@@ -1,13 +1,13 @@
 # Project / Submission README Template
 
-Copy this file to `students/<student-id>/projects/<slug>/README.md` (or the
+Copy this file to `students/<USN>/projects/<slug>/README.md` (or the
 matching `submissions/` path) and fill it in. Delete the comments.
 
 ```yaml
 task_id: project-<slug>
 title: <Project title>
 author: <Full Name>
-roll: <roll number>
+usn: <USN>
 date: YYYY-MM-DD
 status: complete   # complete | partial | blocked
 ```

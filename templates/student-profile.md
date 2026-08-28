@@ -1,12 +1,13 @@
 # Student Profile
 
 ```yaml
-student_id: <roll>-<firstname>
+usn: <USN, lowercased>
 name: <Full Name>
-roll: <roll number>
 github: @<github-handle>
 joined: YYYY-MM-DD
 ```
+
+Your workspace folder is `students/<USN>/` — the bare USN, nothing appended.
 
 ## About
 

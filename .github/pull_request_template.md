@@ -18,8 +18,8 @@
 
 ## Self-checklist
 
-- [ ] All changes are inside my own `students/<student-id>/` folder
-- [ ] Deliverable README has the metadata block (task_id, title, author, roll, date, status)
+- [ ] All changes are inside my own `students/<USN>/` folder
+- [ ] Deliverable README has the metadata block (task_id, title, author, usn, date, status)
 - [ ] Work runs using exactly the commands above
 - [ ] Dependencies declared (requirements.txt / package.json / environment.yml)
 - [ ] Execution evidence committed

@@ -2,7 +2,7 @@
 task_id: activity-01
 title: Hello batch — example deliverable
 author: Example Student
-roll: ju00ai000
+usn: ju00ai000
 date: 2026-08-28
 status: complete
 ```
@@ -20,7 +20,7 @@ the structure is what matters.
 ## How to run
 
 ```bash
-cd students/0000-example/activities/activity-01-hello-batch
+cd students/ju00ai000/activities/activity-01-hello-batch
 python src/hello.py
 ```
 

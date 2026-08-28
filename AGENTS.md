@@ -12,36 +12,47 @@
 
 | Key                | Rule                                                        |
 | ------------------ | ----------------------------------------------------------- |
-| Repo purpose       | Shared batch hub for AI DevOps projects, activities, submissions |
-| Your workspace     | `students/<STUDENT_ID>/` — nothing else                     |
-| Branch name        | `<STUDENT_ID>/<type>-<slug>`                                |
-| Commit subject     | `[<STUDENT_ID>] <type>: <imperative summary>`               |
-| PR title           | `[<STUDENT_ID>] <type>: <summary>`                          |
-| Allowed types      | `activity`, `project`, `submission`, `fix`, `docs`, `profile` |
+| Repo purpose       | Shared batch hub for AI DevOps projects, activities, assignments, submissions |
+| Your workspace     | `students/<USN>/` — one folder per USN, nothing else        |
+| Branch name        | `<USN>/<type>-<slug>`                                       |
+| Commit subject     | `[<USN>] <type>: <imperative summary>`                      |
+| PR title           | `[<USN>] <type>: <summary>`                                 |
+| Allowed types      | `activity`, `assignment`, `project`, `submission`, `fix`, `docs`, `profile` |
 | Direct push to main| NEVER for agents. Humans: only inside their own folder      |
 | Roster exception   | You may append exactly ONE row to `students/README.md` (§7) |
 
-## 1. Establish identity before anything else
+## 1. Establish identity before anything else — the USN rule
 
 You work for exactly ONE student, called your OWNER. Before the first change,
-confirm these with the owner:
+confirm with the owner:
 
-- `OWNER_ROLL`  — official roll number, lowercased (e.g. `ju23ai041`)
-- `OWNER_NAME`  — first name, lowercased (e.g. `ojas`)
-- `STUDENT_ID`  — `<OWNER_ROLL>-<OWNER_NAME>` → folder `students/ju23ai041-ojas/`
+- `USN` — the owner's official University Seat Number, lowercased
+  (e.g. `ju23ai041`). This is the ONLY thing that names their folder.
+- `OWNER_NAME` — full name, used in the roster and READMEs (never in the
+  folder name).
 
-If identity is not established, ASK. Never guess, and never adopt another
-student's folder, even if it looks abandoned. Everything you produce lives
-under `students/<STUDENT_ID>/`.
+**The workspace folder is `students/<USN>/` — the bare USN, nothing appended.**
+No name suffix, no spaces, no capitals. `students/ju23ai041/` ✓ —
+`students/ju23ai041-ojas/` ✗, `students/Ojas/` ✗.
+
+- If a folder with the owner's USN already exists, that IS the workspace —
+  continue inside it.
+- If the owner doesn't know their USN, ASK. Never guess.
+- One USN = one folder, forever. Never create a second folder for the same
+  owner, and never adopt another student's folder even if it looks abandoned.
+
+ALL assignments, activities, projects, and submissions go under
+`students/<USN>/` — no work may live anywhere else.
 
 ## 2. Ownership rules (hard — violating these is a bug)
 
-1. WRITE only inside `students/<STUDENT_ID>/` (plus the single roster row, §7).
+1. WRITE only inside `students/<USN>/` (plus the single roster row, §7).
 2. READ anything in the repo.
 3. NEVER create, modify, move, or delete files inside another student's folder
    — not even to fix an obvious bug. Report it to your owner instead.
-4. `activities/`, `projects/`, `templates/`, `.github/`, and all root files are
-   READ-ONLY for you unless a maintainer explicitly assigns work on them.
+4. `activities/`, `assignments/`, `projects/`, `templates/`, `.github/`, and
+   all root files are READ-ONLY for you unless a maintainer explicitly assigns
+   work on them.
 5. Never rename or delete anything outside your workspace.
 6. Never commit secrets (API keys, tokens, passwords, `.env`). If you find one,
    stop and tell your owner.
@@ -53,31 +64,39 @@ under `students/<STUDENT_ID>/`.
 Every student folder follows this exact tree:
 
 ```
-students/<STUDENT_ID>/
-├── README.md                     # profile card (from templates/student-profile.md)
+students/<USN>/
+├── README.md                        # profile card (from templates/student-profile.md)
 ├── activities/
-│   └── activity-<NN>-<slug>/     # one folder per activity
-│       ├── README.md             # report (from templates/activity-report.md)
-│       ├── src/                  # code / notebooks — the actual work
-│       └── evidence/             # outputs, screenshots, logs
+│   └── activity-<NN>-<slug>/        # one folder per activity
+├── assignments/
+│   └── assignment-<NN>-<slug>/      # one folder per assignment
 ├── projects/
-│   └── <project-slug>/           # one folder per project
-│       ├── README.md             # from templates/submission-readme.md
-│       ├── src/
-│       ├── docs/
-│       └── evidence/
+│   └── <project-slug>/              # one folder per project
 └── submissions/
-    └── <task-id>-<slug>/         # graded submissions, same shape as activities
+    └── <task-id>-<slug>/            # graded submissions
 ```
 
+Every deliverable folder (activity, assignment, project, submission) has the
+same inner shape:
+
+```
+<deliverable>/
+├── README.md      # report, from templates/ (metadata block first)
+├── src/           # code / notebooks — the actual work
+└── evidence/      # outputs, screenshots, logs
+```
+
+(Projects may also add a `docs/` folder.)
+
 Naming: lowercase, hyphen-separated, no spaces, no capitals.
-`activity-01-linear-regression` ✓ — `Activity 1` ✗.
+`assignment-02-docker-basics` ✓ — `Assignment 2` ✗.
 
 ## 4. Branches
 
-- Pattern: `<STUDENT_ID>/<type>-<slug>`
-  - `ju23ai041-ojas/activity-01-linear-regression`
-  - `ju23ai041-ojas/project-deploy-mantis`
+- Pattern: `<USN>/<type>-<slug>`
+  - `ju23ai041/activity-01-linear-regression`
+  - `ju23ai041/assignment-02-docker-basics`
+  - `ju23ai041/project-deploy-mantis`
 - One branch per task. Never reuse an old branch for a new task.
 - Branch from the latest `main`; rebase onto `main` to resolve conflicts.
 - Agents MUST NOT push directly to `main`.
@@ -87,15 +106,16 @@ Naming: lowercase, hyphen-separated, no spaces, no capitals.
 Subject line format:
 
 ```
-[<STUDENT_ID>] <type>: <imperative summary, max 72 chars>
+[<USN>] <type>: <imperative summary, max 72 chars>
 ```
 
 Examples:
 
 ```
-[ju23ai041-ojas] activity: add linear regression notebook
-[ju23ai041-ojas] project: wire CI pipeline for deploy-mantis
-[ju23ai041-ojas] fix: pin scikit-learn version in requirements.txt
+[ju23ai041] activity: add linear regression notebook
+[ju23ai041] assignment: complete docker basics exercises
+[ju23ai041] project: wire CI pipeline for deploy-mantis
+[ju23ai041] fix: pin scikit-learn version in requirements.txt
 ```
 
 - One logical change per commit.
@@ -107,7 +127,7 @@ Examples:
 Agents deliver ALL work via PRs. The PR title uses the commit subject format.
 Fill `.github/pull_request_template.md` completely:
 
-- Task (activity/project/submission ID + link to the brief if one exists)
+- Task (activity/assignment/project/submission ID + link to the brief if one exists)
 - What changed
 - How to run (exact commands)
 - Evidence (paths inside your `evidence/` folders)
@@ -122,7 +142,7 @@ In your owner's FIRST PR, append exactly ONE row to the table in
 `students/README.md`:
 
 ```
-| <roll> | <full name> | `<STUDENT_ID>` | @<github-handle> |
+| <USN> | <full name> | @<github-handle> |
 ```
 
 Append at the END of the table. If that file conflicts on rebase, keep every
@@ -133,10 +153,10 @@ existing row and re-add yours. Never reorder or edit other people's rows.
 Every deliverable README starts with this block:
 
 ```yaml
-task_id: activity-01            # or project-<slug> / submission <task-id>
+task_id: activity-01            # or assignment-<NN> / project-<slug> / submission <task-id>
 title: Linear regression from scratch
 author: Ojas Shelke
-roll: ju23ai041
+usn: ju23ai041
 date: 2026-08-28
 status: complete                # complete | partial | blocked
 ```
@@ -145,7 +165,7 @@ status: complete                # complete | partial | blocked
 
 A task is done only when ALL of these are true:
 
-- [ ] Work lives in the correctly named folder inside your workspace
+- [ ] Work lives in the correctly named folder inside `students/<USN>/`
 - [ ] README.md with the metadata block exists (templates above)
 - [ ] It runs using the exact commands written in the README
 - [ ] Dependencies are declared (`requirements.txt` / `package.json` / `environment.yml`)
@@ -158,6 +178,7 @@ A task is done only when ALL of these are true:
 - Force-pushing or rewriting history on any shared branch
 - Deleting or renaming another student's work
 - Editing `.github/`, root `README.md`, or `AGENTS.md` (maintainers only)
+- Creating a student folder named anything other than the bare USN
 - Committing generated junk: `__pycache__/`, `node_modules/`, `.venv/`,
   `.ipynb_checkpoints/` (already in `.gitignore` — don't force-add)
 - Marking a task `complete` without committed execution evidence

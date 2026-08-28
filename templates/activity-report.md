@@ -1,13 +1,14 @@
 # Activity Report Template
 
-Copy this file to `students/<student-id>/activities/activity-<NN>-<slug>/README.md`
-and fill it in. Delete the comments.
+Copy this file to `students/<USN>/activities/activity-<NN>-<slug>/README.md`
+(and do the same shape for `assignments/assignment-<NN>-<slug>/`) and fill it
+in. Delete the comments.
 
 ```yaml
 task_id: activity-<NN>
 title: <Activity title>
 author: <Full Name>
-roll: <roll number>
+usn: <USN>
 date: YYYY-MM-DD
 status: complete   # complete | partial | blocked
 ```
@@ -24,7 +25,7 @@ status: complete   # complete | partial | blocked
 
 ```bash
 # exact commands from the repo root, e.g.:
-cd students/<student-id>/activities/activity-<NN>-<slug>
+cd students/<USN>/activities/activity-<NN>-<slug>
 pip install -r requirements.txt
 python src/main.py
 ```
