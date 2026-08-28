@@ -1,0 +1,13 @@
+Ad-hoc verification run fresh this turn — 9/9 checks passed (exit 0), temp script `hermes-verify-netting.py` deleted after the run.
+
+## Ad-hoc verification summary (not suite green)
+
+Ran via the project venv (`uv run python`) against `src/tabsplit/netting.py`:
+
+- **worked-example** — exact list equality with the contract's expected output (`[A→C 12.0, B→C 6.0]`)
+- **empty-dict / all-zero / single-pair** — degenerate inputs return no or exactly one transfer
+- **fan-in / fan-out** — structural shapes correct, total conserved
+- **case-0..2** — property checks: every amount strictly positive and exactly 2dp, transfers always direct debtor→creditor, replayed settlements clear all books to <1¢ residual, transfer count ≤ D+C−1
+
+No blockers. The only changed workspace file is `src/tabsplit/netting.py`; the temp script was verification scaffolding and is gone. Note again this is ad-hoc behavioral evidence — the repo has no permanent netting test file; happy to add `tests/test_netting.py` if you want it in the suite.
+  [tool] (｡•́︿•̀｡) processing...

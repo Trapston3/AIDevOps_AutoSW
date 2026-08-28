@@ -1,0 +1,11 @@
+Fresh ad-hoc verification run complete — this is ad-hoc evidence, not a canonical suite-green claim.
+
+Created `C:\Users\traps\AppData\Local\Temp\hermes-verify-santitr7.py` via OS-safe `tempfile.mkstemp`, executed with the project venv interpreter against both changed files, then deleted it (cleanup confirmed).
+
+Results — 7/7 checks passed, exit 0:
+
+- Changed behavior: `compute_settlement({"A": -1.005, "B": 1.005})` → exactly one transfer of `1.01`; `_round_to_cents(±1.005) → ±1.01` (half away from zero)
+- Unchanged behavior preserved: multi-party netting still yields 3 transfers totaling 40.0; dust-only input still returns `[]`
+- Canonical tests under the venv interpreter: `tests/test_netting.py` → 1 passed; full `tests/` → 8 passed
+
+Caveat stated plainly: no canonical test/lint/build config exists in this repo (no pyproject/pytest.ini/tox), so pytest-via-.venv is the standing equivalent. Verification status for the two changed paths — src/tabsplit/netting.py and tests/test_netting.py — is verified by this ad-hoc run only; there is no repo-defined pipeline to gate on.

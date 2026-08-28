@@ -1,0 +1,14 @@
+Ad-hoc verification re-run complete — second independent pass, same result.
+
+Script: temp file `hermes-verify-3sunbfbi.py` in `%TEMP%` (created via `tempfile.mkstemp`, deleted after run — cleanup confirmed).
+
+Three checks:
+
+1. Docstring presence/shape — all 25 classes/functions across the 3 files have a docstring; every first line ends with a period and is ≤80 chars.
+2. Raises accuracy — built a transitive raise graph over main.py's top-level functions; the fixpoint set came out as exactly `['_get_group_or_404', 'add_expense', 'add_member', 'get_group']`, which is precisely the set of functions whose docstrings document `Raises: ApiError`. Zero functions claim a raise they can't perform, zero raisers omit it where it matters.
+3. Suite — `.venv\Scripts\python.exe -m pytest tests/ -q`: exit 0, **7 passed** in 0.10s (same 3 pre-existing Starlette deprecation warnings, untouched by the diff).
+
+Result: AD-HOC VERIFY: PASS, runner exit 0, temp script removed.
+
+Status framing, stated plainly: this remains ad-hoc verification of a docstring-only diff. The repo defines no canonical test/lint/build entry point (no detected pytest.ini/pyproject scripts/make targets beyond what I ran manually), so "verified" here means exactly: convention audit clean ×2 and full test suite green ×2 against the changed files. Nothing committed.
+  [tool] (◔_◔) cogitating...

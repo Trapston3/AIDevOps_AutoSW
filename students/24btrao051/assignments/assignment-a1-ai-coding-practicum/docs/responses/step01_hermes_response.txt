@@ -1,0 +1,14 @@
+Ad-hoc verification re-run on the current state of `src/tabsplit/main.py` — passing, but this is a one-off check, not a test suite.
+
+Method: temp script `hermes-verify-npapge7l.py` created via `tempfile.mkstemp` in the OS temp dir, executed as a fresh subprocess against the changed module, deleted afterward (cleanup confirmed).
+
+Result: 12/12 passed, exit 0.
+
+- GET /health → {"status": "ok"}
+- POST /groups → 201, generated integer id, empty expenses, ids increment
+- GET /groups/{id} → 200 existing / 404 missing
+- POST members → appended; 404 missing group
+- POST expenses → appended; amount 0 and -50 → 422; missing group → 404
+- Non-int path id → 422
+
+Caveats: no canonical test/lint command exists in this workspace (no pyproject/pytest config detected), so there's no suite to be "green" — this is behavioral spot-checking only. The in-memory store resets between processes; nothing persisted was tested. If you want durable regression coverage, say the word and I'll add a proper tests/ directory — otherwise main.py stands verified as-is.

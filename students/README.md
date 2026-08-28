@@ -8,3 +8,4 @@ else's row.
 | USN | Name | GitHub |
 | --- | ---- | ------ |
 | ju00ai000 | Example Student | @example |
+| 24btrao051 | Ojas Shelke | @Trapston3 |

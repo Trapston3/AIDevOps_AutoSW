@@ -1,0 +1,143 @@
+# Note: the Step-3 hermes CLI process hung before printing its summary (provider hiccup).
+# The tool's response IS this applied refactor, captured verbatim from git:
+# git show bb63f63 -- src/tabsplit/main.py
+
+commit bb63f638c14af7f8fbaa8b9120f3cb060d33e317
+Author: ojas <114292520+Trapston3@users.noreply.github.com>
+Date:   Wed Aug 26 15:34:31 2026 +0530
+
+    feat(few-shot): unified error JSON envelope via Hermes Agent CLI
+    
+    Step 3 of docs/PROMPT_LOG.md - technique: FEW-SHOT (4 in/out examples in prompt).
+    Verdict: ACCEPTED WITH EDITS - updated one zero-shot-era test from the old
+    FastAPI 'detail' shape to the new {"error": {...}} contract; all examples
+    verified byte-for-byte against spec.
+
+diff --git a/src/tabsplit/main.py b/src/tabsplit/main.py
+index 69103ff..229d2db 100644
+--- a/src/tabsplit/main.py
++++ b/src/tabsplit/main.py
+@@ -1,10 +1,14 @@
+ """TabSplit -- a small expense-splitting API."""
+ 
+ from itertools import count
++from typing import Any
+ 
+ import uvicorn
+-from fastapi import FastAPI, HTTPException, status
++from fastapi import FastAPI, HTTPException, Request, status
++from fastapi.exceptions import RequestValidationError
++from fastapi.responses import JSONResponse
+ from pydantic import BaseModel, Field
++from starlette.exceptions import HTTPException as StarletteHTTPException
+ 
+ 
+ class Expense(BaseModel):
+@@ -37,6 +41,18 @@ class MemberAdd(BaseModel):
+     name: str
+ 
+ 
++class ApiError(HTTPException):
++    """An HTTP error carrying a stable machine-readable ``code``.
++
++    Raised by application code; rendered by the ``StarletteHTTPException``
++    handler below into the shared ``{"error": {...}}`` envelope.
++    """
++
++    def __init__(self, status_code: int, code: str, message: str) -> None:
++        super().__init__(status_code=status_code, detail=message)
++        self.code = code
++
++
+ # In-memory store: maps group id -> Group instance.
+ groups: dict[int, Group] = {}
+ _next_group_id = count(start=1)
+@@ -48,13 +64,86 @@ app = FastAPI(
+ )
+ 
+ 
++# --- Shared error envelope --------------------------------------------------
++# Every error response -- whether raised by application code, by Starlette,
++# or by FastAPI request validation -- flows through ``_error_response``, so
++# the whole API emits one consistent JSON shape.
++
++
++_FALLBACK_ERROR_CODES = {
++    status.HTTP_404_NOT_FOUND: "NOT_FOUND",
++    status.HTTP_405_METHOD_NOT_ALLOWED: "METHOD_NOT_ALLOWED",
++}
++
++
++def _error_response(status_code: int, code: str, message: str) -> JSONResponse:
++    """Render an error in the shared ``{"error": {...}}`` envelope."""
++    return JSONResponse(
++        status_code=status_code,
++        content={"error": {"code": code, "message": message}},
++    )
++
++
++@app.exception_handler(StarletteHTTPException)
++def handle_http_exception(
++    request: Request, exc: StarletteHTTPException
++) -> JSONResponse:
++    """Wrap any HTTPException (app-raised or framework-raised) in the envelope.
++
++    ``fastapi.HTTPException`` subclasses ``starlette.exceptions.HTTPException``,
++    so this single handler covers both.
++    """
++    code = getattr(exc, "code", None) or _FALLBACK_ERROR_CODES.get(
++        exc.status_code, "HTTP_ERROR"
++    )
++    message = exc.detail if isinstance(exc.detail, str) else str(exc.detail)
++    return _error_response(exc.status_code, code, message)
++
++
++def _is_nonpositive_amount_error(err: dict[str, Any]) -> bool:
++    """True when a validation error is the ``amount > 0`` constraint failing."""
++    loc = err.get("loc") or ()
++    return err.get("type") == "greater_than" and loc[-1] == "amount"
++
++
++@app.exception_handler(RequestValidationError)
++def handle_validation_error(
++    request: Request, exc: RequestValidationError
++) -> JSONResponse:
++    """Wrap request validation failures (malformed JSON, bad payloads, bad
++    path/query params) in the envelope."""
++    errors = exc.errors()
++
++    # A non-positive ``amount`` gets its own dedicated error code (still 422).
++    if errors and all(_is_nonpositive_amount_error(err) for err in errors):
++        return _error_response(
++            status.HTTP_422_UNPROCESSABLE_ENTITY,
++            "INVALID_AMOUNT",
++            "amount must be > 0",
++        )
++
++    messages = []
++    for err in errors:
++        loc = [str(part) for part in err.get("loc", ()) if part != "body"]
++        field = ".".join(loc)
++        text = str(err.get("msg", "Invalid input"))
++        messages.append(f"{field}: {text}" if field else text)
++
++    return _error_response(
++        status.HTTP_422_UNPROCESSABLE_ENTITY,
++        "VALIDATION_ERROR",
++        "; ".join(messages),
++    )
++
++
+ def _get_group_or_404(group_id: int) -> Group:
+     """Return the group with the given id, or raise a 404."""
+     group = groups.get(group_id)
+     if group is None:
+-        raise HTTPException(
++        raise ApiError(
+             status_code=status.HTTP_404_NOT_FOUND,
+-            detail=f"Group {group_id} not found.",
++            code="GROUP_NOT_FOUND",
++            message=f"Group {group_id} not found.",
+         )
+     return group
+ 

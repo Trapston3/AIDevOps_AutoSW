@@ -1,0 +1,29 @@
+Refactor the error handling in src/tabsplit/main.py so that EVERY error response in the whole API uses one consistent JSON envelope. Do not change any success responses. Keep all existing status codes (404, 422). Only modify src/tabsplit/main.py.
+
+The envelope must look exactly like:
+
+{"error": {"code": "GROUP_NOT_FOUND", "message": "Group 99 not found."}}
+
+Here are the exact input/output examples you must match:
+
+Example 1 — unknown group id on any /groups/{id} route
+IN:  GET /groups/99
+OUT: status 404, body:
+{"error": {"code": "GROUP_NOT_FOUND", "message": "Group 99 not found."}}
+
+Example 2 — adding a member to a missing group
+IN:  POST /groups/99/members with body {"name": "Asha"}
+OUT: status 404, body:
+{"error": {"code": "GROUP_NOT_FOUND", "message": "Group 99 not found."}}
+
+Example 3 — non-positive expense amount
+IN:  POST /groups/1/expenses with body {"description": "dinner", "amount": -5.0, "paid_by": "Ben"}
+OUT: status 422, body:
+{"error": {"code": "INVALID_AMOUNT", "message": "amount must be > 0"}}
+
+Example 4 — malformed JSON body / validation failure
+IN:  POST /groups with body {"members": ["solo"]}
+OUT: status 422, body:
+{"error": {"code": "VALIDATION_ERROR", "message": "<semicolon-joined field messages>"}}
+
+Use a custom exception handler so FastAPI's default RequestValidationError and HTTPException both produce this shape.

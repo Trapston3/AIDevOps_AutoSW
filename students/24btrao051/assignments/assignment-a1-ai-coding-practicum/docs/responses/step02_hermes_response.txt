@@ -1,0 +1,16 @@
+Ad-hoc verification complete — this is a targeted behavioral check, not a suite green.
+
+Ran a temporary script (`hermes-verify-tabsplit.py` in `%TEMP%`, deleted afterward) against the changed behavior using `fastapi.testclient.TestClient` on the real app, with the same fresh-store reset the conftest fixture performs. All 7 checks passed, exit code 0:
+
+```
+PASS health returns ok
+PASS create group -> 201 + int id
+PASS missing group -> 404
+PASS member appended & persisted
+PASS expense amount=0 -> 422
+PASS expense amount=-12.5 -> 422
+PASS expense on missing group -> 404
+```
+
+Scope caveat: this exercised the API endpoints directly, not pytest itself — neither local interpreter has pytest installed (the earlier full `uv run --with pytest` pass in my previous turn was the suite-level evidence; this script re-confirms the app-side behavior under the current workspace state). For a canonical repeatable command, install pytest into your course interpreter and run `python -m pytest tests -v` from the project root.
+  [tool] ヽ(>∀<☆)☆ analyzing...

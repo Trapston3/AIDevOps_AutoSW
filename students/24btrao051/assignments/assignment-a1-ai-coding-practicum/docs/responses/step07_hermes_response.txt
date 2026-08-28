@@ -1,0 +1,9 @@
+Ad-hoc verification, this turn, fresh evidence:
+
+- Script: `hermes-verify-f105m74l.py` created via `tempfile.mkstemp` in `%TEMP%`, deleted after run.
+- Ran against the changed behavior directly (project venv interpreter, `src` on path): 12/12 checks PASS, exit 0, no stderr. Counter bug from the previous script fixed — passed/total now tracked properly.
+- Coverage: empty dict → `[]`; all-zero → `[]`; unequal pair → exactly one transfer, amount == smaller side, correct direction; three debtors → `sum(transfers) == sum(positives) == 70.0` with all transfers landing on `Cred`; 2dp rounding on sub-cent inputs and half-cent `1.005 → 1.01`.
+- Canonical check also re-run fresh: `.venv/Scripts/python.exe -m pytest tests/test_netting.py -v` → 6 passed in 0.03s.
+
+Categorization: the temp-script run is ad-hoc verification of behavior, not a suite-green claim; the 6-passed pytest result is the suite-level signal for `tests/test_netting.py`. Both clean — work is verified.
+  [tool] (｡•́︿•̀｡) cogitating...

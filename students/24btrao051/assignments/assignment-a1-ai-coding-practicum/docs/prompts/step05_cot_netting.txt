@@ -1,0 +1,18 @@
+Implement a new module src/tabsplit/netting.py for TabSplit. Think step by step before writing any code: first restate the problem in your own words, work through the arithmetic of the example below on paper, decide on data structures, THEN write the implementation.
+
+Contract:
+    def compute_settlement(balances: dict[str, float]) -> list[Settlement]
+where Settlement is a small dataclass with fields: from_ (str), to (str), amount (float).
+
+Semantics:
+- Input maps member name -> signed balance. Positive = the group owes them (they overpaid). Negative = they owe the group.
+- Balances always sum to ~0 (floating point tolerance).
+- Output must be the MINIMAL list of transfers that clears all balances: debtors pay creditors directly, never route money through intermediaries.
+- Round every transfer amount to 2 decimal places.
+- Greedy largest-debtor-to-largest-creditor matching is acceptable for v1.
+
+Worked example to reason through first:
+    balances = {"A": -12.0, "B": -6.0, "C": 18.0}
+    -> [Settlement(from_="A", to="C", amount=12.0), Settlement(from_="B", to="C", amount=6.0)]
+
+After reasoning, create src/tabsplit/netting.py containing the dataclass and function. Keep it dependency-free (no imports beyond stdlib).

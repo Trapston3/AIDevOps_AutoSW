@@ -1,0 +1,14 @@
+$ ./.venv/Scripts/python.exe replay_step03_examples.py   # replaying the 4 few-shot examples against the refactored API
+
+C:\Users\traps\OneDrive\Documents\UniversityProjects\SEM5\AUTOMATION_IN_SOFTWARE_DEVELOPMENT\ASSIGNMENT_A1\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+C:\Users\traps\OneDrive\Documents\UniversityProjects\SEM5\AUTOMATION_IN_SOFTWARE_DEVELOPMENT\ASSIGNMENT_A1\.venv\Lib\site-packages\anyio\_backends\_asyncio.py:1033: StarletteDeprecationWarning: 'HTTP_422_UNPROCESSABLE_ENTITY' is deprecated. Use 'HTTP_422_UNPROCESSABLE_CONTENT' instead.
+  result = context.run(func, *args)
+Example 1: HTTP 404
+  {'error': {'code': 'GROUP_NOT_FOUND', 'message': 'Group 99 not found.'}}
+Example 2: HTTP 404
+  {'error': {'code': 'GROUP_NOT_FOUND', 'message': 'Group 99 not found.'}}
+Example 3: HTTP 422
+  {'error': {'code': 'INVALID_AMOUNT', 'message': 'amount must be > 0'}}
+Example 4: HTTP 422
+  {'error': {'code': 'VALIDATION_ERROR', 'message': 'name: Field required'}}

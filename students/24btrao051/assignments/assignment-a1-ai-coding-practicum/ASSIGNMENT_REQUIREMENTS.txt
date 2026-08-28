@@ -1,0 +1,26 @@
+# Assignment source PDF: Downloads/Assignment1_AI_Coding_Assistant_Practicum.pdf
+# Summary of requirements this repo fulfils:
+
+# 1. Tool: any AI coding assistant OTHER THAN GitHub Copilot
+#    -> USED: Hermes Agent (agentic CLI coding assistant by Nous Research)
+# 2. Task: Option C - small REST API (Flask/FastAPI/Express) with
+#    3-4 CRUD endpoints, input validation, and tests
+#    -> BUILT: TabSplit expense-splitter (FastAPI)
+# 3. Apply all three prompting techniques from Class 04:
+#    - Zero-shot      -> well-known/unambiguous parts (API scaffold, test client fixture)
+#    - Few-shot       -> where output format/conventions matter (error JSON shape, docstring style)
+#                        with 2-5 input/output examples inside the prompt itself
+#    - Chain-of-thought -> genuinely non-trivial reasoning ("think step by step"):
+#                        balance netting algorithm + debugging a failing rounding test
+#    For EACH technique capture: exact prompt text, screenshot of response,
+#    accept/edit/reject decision, and why the technique fit that step.
+# 4. Repository requirements:
+#    - Name: AIDD-Unit2-A1-<RollNo>-<YourName> -> AIDD-Unit2-A1-24BTRAO051-OjasShelke
+#    - Incremental commits (history IS part of the graded evidence)
+#    - README.md: tool used, setup/run, one-line summary of the three techniques
+#    - /docs folder: full step-by-step prompt log table + screenshots
+#    - Visible to instructor: public repo (or add github.com/shivaprasad-munukuntla as collaborator)
+# 5. Documentation format (per meaningful prompt, expect 6-12 rows):
+#    Step # | Technique | Exact prompt used | Tool response + evaluation
+#    Plus a 200-300 word reflection comparing the tool vs GitHub Copilot.
+# 6. Academic integrity: individual work; must show REAL tool interaction.

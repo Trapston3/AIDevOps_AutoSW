@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Segoe UI', 'Helvetica', sans-serif; color: #1f2328; }
+
+  .cover { page-break-after: always; height: 100vh; display: flex; flex-direction: column;
+           justify-content: center; padding: 70px 80px; background: #0d1117; color: #e6edf3; }
+  .cover .kicker { color: #7ee787; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 18px; }
+  .cover h1 { font-size: 34px; margin: 0 0 10px; line-height: 1.2; }
+  .cover .sub { color: #8b949e; font-size: 15px; margin-bottom: 40px; }
+  .cover table { border-collapse: collapse; font-size: 14px; }
+  .cover td { padding: 7px 0; vertical-align: top; }
+  .cover td.k { color: #8b949e; width: 170px; padding-right: 20px; }
+  .cover .foot { margin-top: 60px; color: #6e7681; font-size: 12px; }
+
+  .page { padding: 46px 54px; page-break-after: always; }
+  .page h2 { font-size: 20px; border-bottom: 2px solid #1f6feb; padding-bottom: 6px; margin: 0 0 14px; }
+  .page h3 { font-size: 14px; margin: 18px 0 6px; }
+  table.log { width: 100%; border-collapse: collapse; font-size: 10px; }
+  table.log th { background: #0d1117; color: #fff; text-align: left; padding: 6px 7px; }
+  table.log td { border: 1px solid #d0d7de; padding: 6px 7px; vertical-align: top; }
+  table.log td.tech { font-weight: 600; white-space: nowrap; }
+
+  .shot { width: 100%; margin: 6px 0 2px; border: 1px solid #d0d7de; border-radius: 6px; }
+  .cap { font-size: 10px; color: #57606a; margin: 0 0 10px; }
+  .grid { width: 100%; border-collapse: collapse; }
+  .grid td { width: 50%; padding: 4px; vertical-align: top; }
+  .grid img { width: 100%; border: 1px solid #d0d7de; border-radius: 6px; }
+  .reflect p { font-size: 12.5px; line-height: 1.65; }
+  ul { font-size: 12px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="kicker">Automation in Software Development · V Sem · Unit 2 · Assignment A1</div>
+  <h1>AI Coding Assistant Practicum</h1>
+  <div class="sub">Prompt Engineering in Practice — with a tool other than GitHub Copilot</div>
+  <table>
+    <tr><td class="k">Student</td><td><b>Ojas Shelke</b> — Roll No. 24BTRAO051</td></tr>
+    <tr><td class="k">AI tool used</td><td><b>Hermes Agent</b> (Nous Research) — agentic CLI coding assistant</td></tr>
+    <tr><td class="k">Task option</td><td>C — small REST API (FastAPI) with CRUD, input validation, unit tests</td></tr>
+    <tr><td class="k">Project</td><td>TabSplit — expense-splitting API for groups (who-owes-whom settlement)</td></tr>
+    <tr><td class="k">Repository</td><td>github.com/Trapston3/AIDD-Unit2-A1-24BTRAO051-OjasShelke (public)</td></tr>
+    <tr><td class="k">Evidence</td><td>10 incremental commits · 13/13 tests passing · 12 screenshots · full verbatim prompt log</td></tr>
+  </table>
+  <div class="foot">Submitted as one PDF compiled from the repository's docs/ folder · Generated 2026-08-26</div>
+</div>
+
+<div class="page">
+  <h2>1 · The tool: Hermes Agent (CLI)</h2>
+  <p style="font-size:12px">Every artifact in this project was produced by prompting <b>Hermes Agent</b>, an agentic
+  CLI coding assistant (invoked as <code>hermes --yolo -z "&lt;prompt&gt;"</code>). It plans, writes files,
+  runs the test suite itself, and reports a verification summary. Raw transcripts are preserved verbatim in
+  <code>docs/responses/</code>; the exact prompt files in <code>docs/prompts/</code>; the graded commit history
+  tags each step with its technique.</p>
+
+  <h2>2 · Prompt log (summary table)</h2>
+  <table class="log">
+    <tr><th style="width:4%">#</th><th style="width:9%">Technique</th><th style="width:44%">Exact prompt (verbatim files in docs/prompts/)</th><th>Tool response + evaluation</th></tr>
+    <tr><td>1</td><td class="tech">Zero-shot</td><td>"Create a FastAPI application at src/tabsplit/main.py for a small expense-splitting API called TabSplit… in-memory dict store; Pydantic models Group/Expense; POST /groups (201), GET /groups/{id} (404), POST members, POST expenses (amount &gt; 0 else 422), GET /health…"</td><td>Complete working app in one shot; self-verified 12/12 behavior checks. <b>Accepted as-is.</b> Standard boilerplate → zero-shot ideal.</td></tr>
+    <tr><td>2</td><td class="tech">Zero-shot</td><td>"Create tests/test_main.py and tests/conftest.py… TestClient… health ok; 201 + int id; 404 missing; member appends; 0/negative → 422; missing group → 404. Independent tests via fixture."</td><td>7 tests + store-reset fixture; all green first run. <b>Accepted as-is.</b></td></tr>
+    <tr><td>3</td><td class="tech">Few-shot</td><td>4 exact input/output JSON examples defining {"error": {code, message}} with codes GROUP_NOT_FOUND / INVALID_AMOUNT / VALIDATION_ERROR (full text: step03_fewshot_error_envelope.txt)</td><td>Handlers for HTTPException + RequestValidationError; all 4 examples replayed byte-for-byte correct. One legacy test updated by me to the new contract. <b>Accepted with edits.</b></td></tr>
+    <tr><td>4</td><td class="tech">Few-shot</td><td>3 style examples (Google docstring template, test docstring, fixture) + rules (≤80-char first line, Raises only when real). Two earlier attempts failed on provider errors.</td><td>25 docstrings rewritten; tool audited itself with a transitive raise-graph. <b>Accepted as-is.</b> Conventions = few-shot payoff.</td></tr>
+    <tr><td>5</td><td class="tech">Chain-of-thought</td><td>"Think step by step before writing any code: restate the problem, work the example arithmetic on paper, decide data structures, THEN implement." + netting contract + worked example</td><td>Greedy largest-debtor→creditor netting, ≤ D+C−1 transfers, dust filter, cents rounding; self-verified 9 properties. <b>Accepted as-is.</b></td></tr>
+    <tr><td>6</td><td class="tech">Chain-of-thought</td><td>RED test supplied: settlement of {A: −1.005, B: 1.005} must equal 1.01. "Run the suite, capture the failure, explain step by step how Python's round() treats halfway values given binary floating point."</td><td>Traced root cause (1.005 → stored as 1.00499…; round-half-to-even snaps down) and fixed via Decimal(str(v)).quantize(ROUND_HALF_UP). <b>Accepted as-is.</b> CoT made the reasoning inspectable.</td></tr>
+    <tr><td>7</td><td class="tech">Zero-shot</td><td>"Create tests/test_netting.py additions: empty dict → []; all-zero → []; unequal pair → one transfer of smaller amount; three debtors conserve total; amounts always 2 decimals. Follow existing docstring convention."</td><td>5 more tests; 13/13 green; convention followed unprompted. <b>Accepted as-is.</b></td></tr>
+  </table>
+  <p style="font-size:11px; color:#57606a">Full verbatim prompts and responses: docs/PROMPT_LOG.md and docs/prompts/ · docs/responses/ in the repository.</p>
+</div>
+
+<div class="page">
+  <h2>3 · Evidence — Zero-shot</h2>
+  <img class="shot" src="screenshots/01_zero_shot_scaffold_response.png">
+  <p class="cap">Step 1 — Hermes self-verification of the generated FastAPI scaffold (12/12 checks).</p>
+  <img class="shot" src="screenshots/02_zero_shot_tests_response.png">
+  <p class="cap">Step 2 — pytest suite generation summary (7 tests, all passing on first run).</p>
+</div>
+
+<div class="page">
+  <h2>4 · Evidence — Few-shot</h2>
+  <img class="shot" src="screenshots/03_fewshot_error_envelope_response.png">
+  <p class="cap">Step 3 — applied error-envelope refactor (verbatim diff; CLI summary was cut short by a provider hiccup, noted honestly in the log).</p>
+  <img class="shot" src="screenshots/03b_fewshot_error_envelope_verification.png">
+  <p class="cap">Step 3 follow-up — the four few-shot examples replayed against the API, matching the spec exactly.</p>
+</div>
+
+<div class="page">
+  <h2>5 · Evidence — Few-shot docstrings + CoT netting</h2>
+  <img class="shot" src="screenshots/04_fewshot_docstrings_response.png">
+  <p class="cap">Step 4 — 25 docstrings rewritten to the few-shot Google-style convention, raise-graph audit clean.</p>
+  <img class="shot" src="screenshots/05_cot_netting_response.png">
+  <p class="cap">Step 5 — chain-of-thought netting module, 9/9 self-verified behavioral properties.</p>
+</div>
+
+<div class="page">
+  <h2>6 · Evidence — Chain-of-thought debugging (RED → GREEN)</h2>
+  <img class="shot" src="screenshots/06b_red_test_failure.png">
+  <p class="cap">Step 6 (before) — reproduced failing test: round(1.005, 2) snapped to 1.0, assertion expects 1.01.</p>
+  <img class="shot" src="screenshots/06_cot_debug_response.png">
+  <p class="cap">Step 6 (after) — root cause traced to binary float representation + banker's rounding; fixed with Decimal ROUND_HALF_UP.</p>
+</div>
+
+<div class="page">
+  <h2>7 · Evidence — running product + final suite + repository</h2>
+  <table class="grid"><tr>
+    <td><img src="screenshots/08_live_swagger_ui.png"></td>
+    <td><img src="screenshots/09_live_api_session.png"></td>
+  </tr></table>
+  <p class="cap">Live uvicorn server: Swagger UI and a real curl session (create group → add expense → 422 on negative → envelope-shaped 404).</p>
+  <img class="shot" src="screenshots/10_final_all_tests_green.png">
+  <p class="cap">Final verification — full suite: 13 passed.</p>
+</div>
+
+<div class="page">
+  <h2>8 · Repository (public, Jain account, incremental history)</h2>
+  <img class="shot" src="screenshots/11_github_repo_page.png">
+  <p class="cap">github.com/Trapston3/AIDD-Unit2-A1-24BTRAO051-OjasShelke — public, README with technique summary.</p>
+  <img class="shot" src="screenshots/12_github_commit_history.png">
+  <p class="cap">10 incremental commits, each tagged with its prompting technique — the iteration evidence the assignment requires.</p>
+</div>
+
+<div class="page reflect">
+  <h2>9 · Reflection — Hermes Agent vs. GitHub Copilot</h2>
+  <p>I built this entire assignment with <b>Hermes Agent</b>, an agentic CLI coding assistant, rather than
+  Copilot's inline-suggestion model, and the difference in <i>shape</i> was the biggest surprise. Copilot ghosts
+  completions inside the file you're editing; Hermes takes whole verbatim prompts, plans multi-step work, writes
+  files, runs the test suite, and reports back a summary I could paste straight into my prompt log. For
+  assignment-style work — scaffold, tests, refactor, debug — that loop felt faster: one clear prompt produced
+  <code>main.py</code> complete and passing, where the same scope would have been dozens of accepted
+  line-suggestions in Copilot.</p>
+  <p>The trade-off was latency and trust. Each Hermes turn took minutes, not milliseconds, so quick "what does
+  this flag do?" questions would favor Copilot. It also needed more <i>deliberate correction</i>: after its
+  few-shot error-envelope refactor, one of my existing tests went red because it still asserted FastAPI's default
+  error shape — the tool had done exactly what I asked without noticing the contract break, so I edited the test
+  myself. Twice, API quota/connection errors killed runs mid-task; I noted them rather than hiding them, since
+  real quota limits are themselves useful observations about a tool.</p>
+  <p>Where it clearly won: convention enforcement via few-shot examples (25 docstrings rewritten in one pass) and
+  chain-of-thought debugging — watching it trace <code>round(1.005, 2)</code> to binary floating-point
+  representation was better evidence of understanding than any inline diff.</p>
+  <p>In a real team I'd pick Copilot for high-frequency editing inside a mature codebase, and Hermes for
+  greenfield scaffolding, test generation, refactors across many files, and root-cause hunts — anything where
+  delegating a whole verified unit of work beats co-piloting every line.</p>
+
+  <h3 style="margin-top:22px">Submission links</h3>
+  <ul>
+    <li>Repository: <b>https://github.com/Trapston3/AIDD-Unit2-A1-24BTRAO051-OjasShelke</b> (public — instructor view enabled; add as collaborator if made private later)</li>
+    <li>Full prompt log: docs/PROMPT_LOG.md · Raw prompts: docs/prompts/ · Raw responses: docs/responses/ · Screenshots: docs/screenshots/</li>
+  </ul>
+</div>
+
+</body>
+</html>

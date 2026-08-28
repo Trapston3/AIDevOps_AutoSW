@@ -1,0 +1,49 @@
+Adopt a documentation convention across the TabSplit project. Rewrite the docstrings in src/tabsplit/main.py, tests/conftest.py, and tests/test_main.py so every function/class follows this EXACT Google-style template (2-5 examples below - match them precisely):
+
+Pattern:
+def function_name(arg1: int, arg2: str) -> bool:
+    """One-line imperative summary ending with a period.
+
+    Optional 1-2 sentence context paragraph.
+
+    Args:
+        arg1: What arg1 is.
+        arg2: What arg2 is.
+
+    Returns:
+        What is returned.
+
+    Raises:
+        ApiError: If the group does not exist.
+    """
+
+Example 1 (from this project's target style):
+def _get_group_or_404(group_id: int) -> Group:
+    """Return the group with the given id.
+
+    Looks up ``group_id`` in the shared store.
+
+    Args:
+        group_id: Server-generated integer id of the group.
+
+    Returns:
+        The matching Group instance.
+
+    Raises:
+        ApiError: With code GROUP_NOT_FOUND if no group exists.
+    """
+
+Example 2 (test naming + docstring style):
+def test_add_expense_with_negative_amount_returns_422(client):
+    """Adding an expense with amount < 0 fails with 422 INVALID_AMOUNT."""
+
+Example 3 (fixture style):
+@pytest.fixture()
+def client() -> TestClient:
+    """HTTP client wired directly to the FastAPI app (no live server).
+
+    Returns:
+        TestClient bound to tabsplit.main.app.
+    """
+
+Rules: first line must be a single sentence under ~80 chars; use "Raises:" only when something is actually raised; do not change any runtime behavior, signatures, or test assertions - docstrings only.

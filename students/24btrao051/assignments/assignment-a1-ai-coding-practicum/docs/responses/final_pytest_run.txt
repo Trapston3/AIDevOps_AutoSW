@@ -1,0 +1,29 @@
+$ ./.venv/Scripts/python.exe -m pytest tests/ -v
+
+============================= test session starts =============================
+platform win32 -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\traps\OneDrive\Documents\UniversityProjects\SEM5\AUTOMATION_IN_SOFTWARE_DEVELOPMENT\ASSIGNMENT_A1\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\traps\OneDrive\Documents\UniversityProjects\SEM5\AUTOMATION_IN_SOFTWARE_DEVELOPMENT\ASSIGNMENT_A1
+plugins: anyio-4.14.2
+collecting ... collected 13 items
+
+tests/test_main.py::test_health_returns_ok PASSED                        [  7%]
+tests/test_main.py::test_create_group_returns_201_and_integer_id PASSED  [ 15%]
+tests/test_main.py::test_get_missing_group_returns_404 PASSED            [ 23%]
+tests/test_main.py::test_add_member_appends_to_group PASSED              [ 30%]
+tests/test_main.py::test_add_expense_with_zero_amount_returns_422 PASSED [ 38%]
+tests/test_main.py::test_add_expense_with_negative_amount_returns_422 PASSED [ 46%]
+tests/test_main.py::test_add_expense_to_missing_group_returns_404 PASSED [ 53%]
+tests/test_netting.py::test_settlement_amount_is_rounded_to_cents PASSED [ 61%]
+tests/test_netting.py::test_empty_balances_returns_empty_list PASSED     [ 69%]
+tests/test_netting.py::test_all_zero_balances_returns_empty_list PASSED  [ 76%]
+tests/test_netting.py::test_unequal_debtor_and_creditor_transfer_smaller_amount PASSED [ 84%]
+tests/test_netting.py::test_three_debtors_one_creditor_conserves_total PASSED [ 92%]
+tests/test_netting.py::test_every_amount_is_rounded_to_two_decimals PASSED [100%]
+
+
+tests/test_main.py::test_add_expense_with_zero_amount_returns_422
+tests/test_main.py::test_add_expense_with_negative_amount_returns_422
+    result = context.run(func, *args)
+
+======================= 13 passed, 3 warnings in 0.13s ========================

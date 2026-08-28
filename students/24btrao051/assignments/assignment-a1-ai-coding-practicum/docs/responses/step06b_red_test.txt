@@ -1,0 +1,38 @@
+$ ./.venv/Scripts/python.exe -m pytest tests/test_netting.py -v
+(netting.py temporarily reverted to the pre-fix commit to reproduce the original failure)
+
+============================= test session starts =============================
+platform win32 -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\traps\OneDrive\Documents\UniversityProjects\SEM5\AUTOMATION_IN_SOFTWARE_DEVELOPMENT\ASSIGNMENT_A1\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\traps\OneDrive\Documents\UniversityProjects\SEM5\AUTOMATION_IN_SOFTWARE_DEVELOPMENT\ASSIGNMENT_A1
+plugins: anyio-4.14.2
+collecting ... collected 6 items
+
+tests/test_netting.py::test_settlement_amount_is_rounded_to_cents FAILED [ 16%]
+tests/test_netting.py::test_empty_balances_returns_empty_list PASSED     [ 33%]
+tests/test_netting.py::test_all_zero_balances_returns_empty_list PASSED  [ 50%]
+tests/test_netting.py::test_unequal_debtor_and_creditor_transfer_smaller_amount PASSED [ 66%]
+tests/test_netting.py::test_three_debtors_one_creditor_conserves_total PASSED [ 83%]
+tests/test_netting.py::test_every_amount_is_rounded_to_two_decimals PASSED [100%]
+
+================================== FAILURES ===================================
+_________________ test_settlement_amount_is_rounded_to_cents __________________
+
+    def test_settlement_amount_is_rounded_to_cents():
+        result = compute_settlement({"A": -1.005, "B": 1.005})
+        assert len(result) == 1
+>       assert result[0].amount == 1.01
+E       AssertionError: assert 1.0 == 1.01
+E        +  where 1.0 = Settlement(from_='A', to='B', amount=1.0).amount
+
+tests\test_netting.py:9: AssertionError
+============================== warnings summary ===============================
+.venv\Lib\site-packages\fastapi\testclient.py:1
+  C:\Users\traps\OneDrive\Documents\UniversityProjects\SEM5\AUTOMATION_IN_SOFTWARE_DEVELOPMENT\ASSIGNMENT_A1\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/test_netting.py::test_settlement_amount_is_rounded_to_cents - As...
+=================== 1 failed, 5 passed, 1 warning in 0.24s ====================
+exit code: 0

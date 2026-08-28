@@ -1,0 +1,14 @@
+Think step by step. A test for the settlement module is FAILING. Trace the failure to its root cause, explain the reasoning, then fix it.
+
+The failing test (create it as tests/test_netting.py):
+
+    from tabsplit.netting import compute_settlement
+
+    def test_settlement_amount_is_rounded_to_cents():
+        result = compute_settlement({"A": -1.005, "B": 1.005})
+        assert len(result) == 1
+        assert result[0].amount == 1.01
+
+Run the suite with:
+    ./.venv/Scripts/python.exe -m pytest tests/test_netting.py -v
+and capture the exact failure output. Then explain step by step why the current implementation produces a wrong amount for this input. Consider carefully: how does Python's built-in round() treat halfway values like 1.005 given that 1.005 cannot be represented exactly in binary floating point? Identify the root cause, then fix src/tabsplit/netting.py so this test passes WITHOUT changing any other behavior or breaking any other tests.
