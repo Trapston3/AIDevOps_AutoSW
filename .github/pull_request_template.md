@@ -24,4 +24,4 @@
 - [ ] Dependencies declared (requirements.txt / package.json / environment.yml)
 - [ ] Execution evidence committed
 - [ ] No secrets, nothing over 10 MB
-- [ ] Roster row added in `students/README.md` (first PR only)
+- [ ] I did NOT edit `students/README.md` (roster is maintainer-managed)

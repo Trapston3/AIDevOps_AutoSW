@@ -19,7 +19,7 @@
 | PR title           | `[<USN>] <type>: <summary>`                                 |
 | Allowed types      | `activity`, `assignment`, `project`, `submission`, `fix`, `docs`, `profile` |
 | Direct push to main| NEVER for agents. Humans: only inside their own folder      |
-| Roster exception   | You may append exactly ONE row to `students/README.md` (§7) |
+| Roster             | `students/README.md` is maintainer-managed — do NOT edit    |
 
 ## 1. Establish identity before anything else — the USN rule
 
@@ -46,7 +46,7 @@ ALL assignments, activities, projects, and submissions go under
 
 ## 2. Ownership rules (hard — violating these is a bug)
 
-1. WRITE only inside `students/<USN>/` (plus the single roster row, §7).
+1. WRITE only inside `students/<USN>/`. No exceptions.
 2. READ anything in the repo.
 3. NEVER create, modify, move, or delete files inside another student's folder
    — not even to fix an obvious bug. Report it to your owner instead.
@@ -136,17 +136,12 @@ Fill `.github/pull_request_template.md` completely:
 After opening the PR, report the PR URL to your owner. Do not merge your own
 PR unless the owner explicitly says to.
 
-## 7. Roster — the only file outside your folder you may touch
+## 7. Roster — maintainer-managed, do not touch
 
-In your owner's FIRST PR, append exactly ONE row to the table in
-`students/README.md`:
-
-```
-| <USN> | <full name> | @<github-handle> |
-```
-
-Append at the END of the table. If that file conflicts on rebase, keep every
-existing row and re-add yours. Never reorder or edit other people's rows.
+`students/README.md` (the batch roster) is maintained ONLY by the repo
+maintainers. Do NOT edit it — not even to add your owner's row. Keeping the
+roster out of student writes means no two submissions can ever conflict on a
+shared file. Maintainers rebuild the roster from the `students/` folder names.
 
 ## 8. Required metadata block
 
@@ -177,7 +172,8 @@ A task is done only when ALL of these are true:
 
 - Force-pushing or rewriting history on any shared branch
 - Deleting or renaming another student's work
-- Editing `.github/`, root `README.md`, or `AGENTS.md` (maintainers only)
+- Editing `.github/`, root `README.md`, `AGENTS.md`, or `students/README.md`
+  (the roster — all maintainer-only)
 - Creating a student folder named anything other than the bare USN
 - Committing generated junk: `__pycache__/`, `node_modules/`, `.venv/`,
   `.ipynb_checkpoints/` (already in `.gitignore` — don't force-add)

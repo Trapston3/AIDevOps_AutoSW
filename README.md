@@ -48,8 +48,8 @@ AIDevOps_AutoSW/
    ```bash
    cp -r students/ju00ai000 students/ju23ai041
    ```
-   Edit `students/ju23ai041/README.md` (profile card) and add your row to the
-   roster in `students/README.md`.
+   Edit `students/ju23ai041/README.md` (your profile card). The batch roster
+   (`students/README.md`) is maintainer-managed — don't edit it.
 3. **Branch** — one branch per task:
    ```bash
    git checkout -b ju23ai041/activity-01-linear-regression main
@@ -73,8 +73,8 @@ version:
 - Establish your OWNER's USN first; your workspace is `students/<USN>/` —
   the bare USN, nothing appended — and nothing else.
 - All activities, assignments, projects, and submissions go under that folder.
-- Never write outside your workspace (single exception: append your owner's
-  roster row in `students/README.md` on the first PR).
+- Never write outside your workspace — no exceptions. The roster
+  (`students/README.md`) is maintainer-managed; don't touch it.
 - Branch `<USN>/<type>-<slug>`, commit `[<USN>] <type>: summary`, deliver via
   PR using the template.
 - Every deliverable: README with metadata block + run commands + `evidence/`.
