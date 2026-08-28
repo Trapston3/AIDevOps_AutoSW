@@ -7,3 +7,4 @@ if convenient, but never edit or remove someone else's row.
 | Roll | Name | Folder | GitHub |
 | ---- | ---- | ------ | ------ |
 | ju00ai000 | Example Student | `0000-example` | @example |
+| 24btrao037 | Sashankar J | `24btrao037-sashankar` | @SashankarJ |
