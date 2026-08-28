@@ -1,0 +1,1 @@
+Hello from the AIDevOps_AutoSW example activity!
