@@ -11,5 +11,6 @@ Your folder under `students/` must be named exactly by your USN (lowercased).
 | --- | ---- | ------ |
 | ju00ai000 | Example Student | @example |
 | 24btrao004 | Ashwin Lahkar | @Ashwin-L1 |
+| 24btrao034 | Rejuthashree | @RejuthaSree |
 | 24btrao037 | Sashankar J | @SashankarJ |
 | 24btrao051 | Ojas Shelke | @Trapston3 |
